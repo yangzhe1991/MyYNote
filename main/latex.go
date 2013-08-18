@@ -19,7 +19,7 @@ func latex(rw http.ResponseWriter,req *http.Request){
 		io.WriteString(h, tex)
 		filename:=fmt.Sprintf("%x", h.Sum(nil))
 		ioutil.WriteFile(filename+".tex", []byte(tex),444)
-		cmd := exec.Command("pdflatex", filename+".tex")
+		cmd := exec.Command("xelatex", filename+".tex")
 		var out,err bytes.Buffer
 		cmd.Stdout = &out
 		cmd.Stderr = &err
@@ -73,7 +73,7 @@ var html string=`<html>
 				<body>
                 买的Linode只搭了个个人博客和ACMDIY群的主页，利用率太低，加上自己实在懒得在各种电脑上装LaTex，顺便练手写下Go，于是有了这么个东西。
                 <br>
-                texlive2013，暂不支持中文，字体啥的也只有默认的。
+                texlive2013，<s>暂不支持中文，字体啥的也只有默认的。</s>把中文字体从我自己电脑上win7拷过去，所以现在支持了，但只有那些常用的字体。
                 <br>
                 这本来是个大坑，想利用有道云笔记和Golang写点玩具。比如把tex代码存在有道云笔记中，就成了一个在线的Latex IDE。然后可以顺便支持markdown啊，代码高亮啊啥的。不保证真的去填，更不保证填完、填得漂亮。
                 <br>
