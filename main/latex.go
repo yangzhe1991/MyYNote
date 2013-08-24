@@ -12,39 +12,39 @@ import (
 	"bytes"
 )
 
-func latex(rw http.ResponseWriter,req *http.Request){
-	if req.Method=="POST"{
-		tex:=req.FormValue("tex")
+func latex(rw http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		tex := req.FormValue("tex")
 		h := md5.New()
 		io.WriteString(h, tex)
-		filename:=fmt.Sprintf("%x", h.Sum(nil))
-		ioutil.WriteFile(filename+".tex", []byte(tex),444)
-		cmd := exec.Command("xelatex", filename+".tex")
-		var out,err bytes.Buffer
+		filename := fmt.Sprintf("%x", h.Sum(nil))
+		ioutil.WriteFile(filename + ".tex", []byte(tex), 444)
+		cmd := exec.Command("xelatex", filename + ".tex")
+		var out, err bytes.Buffer
 		cmd.Stdout = &out
 		cmd.Stderr = &err
-		if cmd.Run() !=nil{
+		if cmd.Run() != nil {
 			rw.Write(out.Bytes())
 			rw.Write(err.Bytes())
 			log.Print("Build PDF fail")
 			return
 		}
 		log.Print("Build Success")
-		html:=fmt.Sprintf("<html><head><meta http-equiv=\"refresh\" content=\"0;url=/latex/%s.pdf\" /></head></html>",filename)
-		fmt.Fprint(rw,html)
+		html := fmt.Sprintf("<html><head><meta http-equiv=\"refresh\" content=\"0;url=/latex/%s.pdf\" /></head></html>", filename)
+		fmt.Fprint(rw, html)
 
 	}
 
-	if req.Method=="GET" {
-		path:=req.URL.Path
-		if len(path)<10 {
+	if req.Method == "GET" {
+		path := req.URL.Path
+		if len(path) < 10 {
 			log.Print("GET")
 			fmt.Fprint(rw, html)
 			return
 		}
-		path=path[7:]
-		log.Print("GET "+path)
-		http.ServeFile(rw,req,path)
+		path = path[7:]
+		log.Print("GET " + path)
+		http.ServeFile(rw, req, path)
 
 
 	}
@@ -52,20 +52,7 @@ func latex(rw http.ResponseWriter,req *http.Request){
 
 }
 
-
-
-func main() {
-	http.HandleFunc("/latex/",latex)
-	log.Print("service start")
-	err:=http.ListenAndServe(":8099",nil)
-	if err!=nil{
-		log.Fatal(err)
-	}
-
-
-}
-
-var html string=`<html>
+var html string = `<html>
 				<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<title>在线LaTex编译器</title>
