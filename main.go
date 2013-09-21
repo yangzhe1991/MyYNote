@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
-	beego.Router("/", &controllers.MainController{})
+	beego.Router("/note/", &controllers.MainController{})
+	beego.Router("/note/callback", &controllers.CallbackController{})
+	beego.Router("/note/json/*", &controllers.JsonController{})
+	beego.Router("/note/latex/*", &controllers.LatexController{})
+	beego.Router("/note/latex/", &controllers.LatexController{})
 	beego.Run()
 }
-
