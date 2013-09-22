@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,16 +11,17 @@
 </head>
 
 <body>
+<div>基于有道云笔记的在线Latex编辑器，能看到这个页面的说明已经用网易通行证登录了，会创建一个叫“latex”的笔记本，新建两个文件，如果两个不够请自行去有道云笔记里面增加，然后在这边刷新就能看到了。<br>写着玩的，用beego实现，不保证随时可以用，不保证没有bug。代码在<a href="https://github.com/yangzhe1991/MyYNote">github上</a>，博客有个文章说了下开发这个小玩意之后的粗浅想法，<a href="http://yangzhe1991.org/blog/2013/09/有道云latex">在这里</a></div>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span1">
+    <div class="span2">
       <ul id="list" class="nav nav-list">
       		{{range .Notes}}
               <li ><a href="#{{.Path}}">{{.Title}}</a></li>
             {{end}}
       </ul>
     </div>
-    <div class="span11">
+    <div class="span10">
 	    <div class="row-fluid">
 	    	<div class="span5"> 
 		      	<form id="form">
@@ -37,7 +37,7 @@
 		      			<textarea class="span12" rows="30" name="content" id="codearea">
 		      			</textarea>
 		      		</div>
-		      		
+                    <input type="hidden" id="path" name="path"/>		      		
 		      	
 		      	</form>
 	     	</div>
@@ -115,12 +115,13 @@ if (history.pushState) {
 }
 
 $("#submit").click(function(){
+    $("#path").val(location.href.split("#")[1]);
 	$.post("/note/latex/", 
-		$("#codearea").serialize(),
+		$("#form").serialize(),
 		function(data, textStatus, xhr) {
 			if(data.Result=="success"){
-				$("#pdf").src=mydomain+"latex/"+data.Content;
-				$("#compile").html();
+				$("#pdf")[0].src=mydomain+"latex/"+data.Content;
+				$("#compile").html("");
 			}
 			else{
 				$("#compile").html(data.Content.replace(/\n/,"<br>"));
@@ -133,7 +134,7 @@ $("#submit").click(function(){
 </script>
     
 	
-	<!--script type="text/javascript">
+	<script type="text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-29543335-1']);
 	_gaq.push(['_setDomainName', 'yangzhe1991.org']);
@@ -143,6 +144,6 @@ $("#submit").click(function(){
 		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
-	</script-->
+	</script>
 </body>
 </html>

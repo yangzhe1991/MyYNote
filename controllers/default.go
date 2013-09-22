@@ -91,7 +91,15 @@ func (this *MainController) Get() {
 		ns = append(ns, ViewNotes{notepath, note.Title})
 	}
     if len(ns)==0{
-        note, err:=yc.CreateNote(mynotebook.Path, "Latex Document", "", "", "")
+        note, err:=yc.CreateNote(mynotebook.Path, "document1", "", "", "")
+		if err != nil {
+			this.Redirect("/note/error", 301)
+			return
+		}
+		ns = append(ns, ViewNotes{note, "Latex Document"})
+    }
+    if len(ns)==1{
+        note, err:=yc.CreateNote(mynotebook.Path, "document2", "", "", "")
 		if err != nil {
 			this.Redirect("/note/error", 301)
 			return

@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+    ynote "github.com/youdao-api/go-ynote"
+    "MyYNote/conf"
 
 	"bytes"
 	"crypto/md5"
@@ -50,6 +52,21 @@ func (this *LatexController) Post() {
 		this.Data["json"] = ViewResults{
 			"success", filename}
 	}
+    
+    yc := ynote.NewOnlineYnoteClient(ynote.Credentials{
+        Token:  conf.Key,
+        Secret: conf.Secret})
+    a := this.GetSession("accToken")
+    var cred ynote.Credentials
+    if a != nil {
+        cred = a.(ynote.Credentials)
+        yc.AccToken = &cred
+        path,_:=url.QueryUnescape(this.GetString("path"))
+        error:=yc.UpdateNote(path, this.GetString("title"), "", "", this.GetString("content"))
+        if error!=nil{
+            beego.Info(error)
+        }
+    } 
 
 	this.ServeJson()
 
