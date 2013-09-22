@@ -43,7 +43,6 @@ func (this *LatexController) Post() {
 	var out, errst bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &errst
-	json := map[string]string{}
 	if cmd.Run() != nil {
 		this.Data["json"] = ViewResults{
 			"error", string(out.Bytes()) + string(errst.Bytes())}
