@@ -62,7 +62,7 @@ String.prototype.temp = function(obj) {
         return (returns + "") == "undefined"? "": returns;
     });
 };
-var mydomain="http://localhost:8000/note/"
+var mydomain="http://yangzhe1991.org/note/"
 var eleMenus = $("#list a").bind("click", function(event) {
 	var query = this.href.split("#")[1];
 	if (history.pushState && query && !this.parentNode.classList.contains("active")) {
@@ -118,14 +118,12 @@ $("#submit").click(function(){
 	$.post("/note/latex/", 
 		$("#codearea").serialize(),
 		function(data, textStatus, xhr) {
-			alert(data);
-			
 			if(data.Result=="success"){
 				$("#pdf").src=mydomain+"latex/"+data.Content;
+				$("#compile").html();
 			}
 			else{
-				
-				$("#compile").textContent=data.Content;
+				$("#compile").html(data.Content.replace(/\n/,"<br>"));
 			}
 		},
 		"json"

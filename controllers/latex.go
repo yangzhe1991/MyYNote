@@ -34,7 +34,6 @@ type ViewResults struct {
 func (this *LatexController) Post() {
 	beego.Info("/latex post")
 	tex := this.GetString("content")
-	beego.Info(tex)
 	h := md5.New()
 	io.WriteString(h, tex)
 	filename := fmt.Sprintf("%x", h.Sum(nil))

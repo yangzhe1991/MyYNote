@@ -10,7 +10,7 @@ import (
 
 var tmpCredDB map[string]*ynote.Credentials = make(map[string]*ynote.Credentials)
 
-var WEBROOT = "http://localhost:8000/note/"
+var WEBROOT = "http://yangzhe1991.org/note/"
 
 type ViewNotes struct {
 	Path  string
@@ -24,6 +24,7 @@ type MainController struct {
 }
 
 func (this *MainController) Get() {
+
 	beego.Info("/")
 	yc := ynote.NewOnlineYnoteClient(ynote.Credentials{
 		Token:  conf.Key,
@@ -37,6 +38,7 @@ func (this *MainController) Get() {
 		beego.Info("no accToken in session")
 		tmpCred, err := yc.RequestTemporaryCredentialsWithCallBack(WEBROOT + "callback")
 		if err != nil {
+            beego.Info(err)
 			this.Redirect("/note/error", 301)
 			return
 		}
@@ -88,6 +90,14 @@ func (this *MainController) Get() {
 		}
 		ns = append(ns, ViewNotes{notepath, note.Title})
 	}
+    if len(ns)==0{
+        note, err:=yc.CreateNote(mynotebook.Path, "Latex Document", "", "", "")
+		if err != nil {
+			this.Redirect("/note/error", 301)
+			return
+		}
+		ns = append(ns, ViewNotes{note, "Latex Document"})
+    }
 	beego.Info(ns)
 
 	this.Data["Notes"] = ns
