@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<div>基于有道云笔记的在线Latex编辑器，能看到这个页面的说明已经用网易通行证登录了，会创建一个叫“latex”的笔记本，新建两个文件，如果两个不够请自行去有道云笔记里面增加，然后在这边刷新就能看到了。<br>写着玩的，用beego实现，不保证随时可以用，不保证没有bug。代码在<a href="https://github.com/yangzhe1991/MyYNote">github上</a>，博客有个文章说了下开发这个小玩意之后的粗浅想法，<a href="http://yangzhe1991.org/blog/2013/09/有道云latex">在这里</a></div>
+<div>基于有道云笔记的在线Latex编辑器，能看到这个页面的说明已经用网易通行证登录了，会创建一个叫“latex”的笔记本，新建两个文件，如果两个不够请自行去有道云笔记里面增加，然后在这边刷新就能看到了。<br>写着玩的，用beego实现，不保证随时可以用，不保证没有bug。代码在<a href="https://github.com/yangzhe1991/MyYNote">github上</a>，博客有个文章说了下开发这个小玩意之后的粗浅想法，<a href="http://yangzhe1991.org/blog/2013/09/youdao-note-latex-golang-beego/">在这里</a></div>
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2">
